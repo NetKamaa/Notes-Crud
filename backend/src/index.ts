@@ -55,6 +55,35 @@ app.post("/api/notes", async (req, res) => {
   }
 });
 
+app.patch("/api/notes/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({
+        message: "Title and content are required",
+      });
+    }
+
+    const note = await prisma.note.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        content,
+      },
+    });
+
+    res.json(note);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update note",
+    });
+  }
+});
+
 app.delete("/api/notes/:id", async (req, res) => {
   try {
     const { id } = req.params;
