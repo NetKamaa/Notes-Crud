@@ -30,6 +30,30 @@ app.get("/api/notes", async (req, res) => {
   }
 });
 
+app.get("api/notes/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const note = prisma.note.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!note) {
+      return res.status(404).json({
+        message: "No note with this ID",
+      });
+    }
+
+    res.json(note);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to load note",
+    });
+  }
+});
+
 app.post("/api/notes", async (req, res) => {
   try {
     const { title, content } = req.body;
