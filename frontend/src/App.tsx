@@ -1,9 +1,53 @@
+import { useEffect, useState } from "react";
+import { getNotes } from "./api/notesApi";
+import type { TNote } from "./types/notes";
+
 function App() {
+  const [notes, setNotes] = useState<TNote[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadNotes = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const data = await getNotes();
+
+        setNotes(data);
+      } catch (error) {
+        setError("Unable to load notes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadNotes();
+  }, []);
+
   return (
     <>
-      <main className="min-h-screen bg-slate-950 text-white p-8">
-        <h1 className="text-3xl font-bold">Notes CRUD</h1>
-      </main>
+      {loading && <p className="text-slate-600">Loading...</p>}
+
+      {error && <p className="text-shadow-slate-600">{error}</p>}
+
+      {!loading && !error && notes.length === 0 && (
+        <p className="text-slate-600">No Notes yet</p>
+      )}
+
+      <div className="space-y-4">
+        {notes.map((note) => (
+          <article key={note.id} className="rounded-xl bg-amber-400 p-4">
+            <div className="mb-2 flex items-center gap-2">
+              {note.isPinned && <span>Pined</span>}
+              <h2 className="text-xl font-semibold">{note.title}</h2>
+            </div>
+
+            <p className="text-slate-300">{note.content}</p>
+          </article>
+        ))}
+      </div>
     </>
   );
 }
