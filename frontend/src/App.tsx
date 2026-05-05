@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getNotes } from "./api/notesApi";
 import { NoteForm } from "./components/NoteForm";
+import { NoteList } from "./components/NoteList";
 import type { INote } from "./types/notes";
 
 function App() {
@@ -58,20 +59,8 @@ function App() {
         <p className="text-slate-600">No Notes yet</p>
       )}
 
-      <div className="space-y-4">
-        {notes.map((note) => (
-          <article key={note.id} className="rounded-xl bg-amber-400 p-4">
-            <div className="mb-2 flex items-center gap-2">
-              {note.isPinned && <span>Pined</span>}
-              <h2 className="text-xl font-semibold">{note.title}</h2>
-            </div>
-
-            <p className="text-slate-300">{note.content}</p>
-          </article>
-        ))}
-      </div>
-
       <NoteForm onNoteCreated={refreshNotes} />
+      <NoteList notes={notes} />
     </>
   );
 }
