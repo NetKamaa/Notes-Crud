@@ -1,29 +1,51 @@
 import { useEffect, useState } from "react";
 import { getNotes } from "./api/notesApi";
-import type { TNote } from "./types/notes";
+import { NoteForm } from "./components/NoteForm";
+import type { INote } from "./types/notes";
 
 function App() {
-  const [notes, setNotes] = useState<TNote[]>([]);
+  const [notes, setNotes] = useState<INote[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const refreshNotes = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const data = await getNotes();
+
+      setNotes(data);
+    } catch (error) {
+      setError("Unable to load notes");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadNotes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    let ignore = false;
 
-        const data = await getNotes();
+    getNotes()
+      .then((data) => {
+        if (!ignore) {
+          setNotes(data);
+        }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setError("Unable to load notes");
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
 
-        setNotes(data);
-      } catch (error) {
-        setError("Unable to load notes");
-      } finally {
-        setLoading(false);
-      }
+    return () => {
+      ignore = true;
     };
-
-    loadNotes();
   }, []);
 
   return (
@@ -48,6 +70,8 @@ function App() {
           </article>
         ))}
       </div>
+
+      <NoteForm onNoteCreated={refreshNotes} />
     </>
   );
 }
