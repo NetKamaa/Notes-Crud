@@ -7,7 +7,7 @@ export interface INote {
   updatedAt: string;
 }
 
-export interface ICreateNoteData {
+export interface INoteData {
   title: string;
   content: string;
 }
