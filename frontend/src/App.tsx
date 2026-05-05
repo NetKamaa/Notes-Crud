@@ -17,7 +17,7 @@ function App() {
       const data = await getNotes();
 
       setNotes(data);
-    } catch (error) {
+    } catch {
       setError("Unable to load notes");
     } finally {
       setLoading(false);
@@ -60,7 +60,7 @@ function App() {
       )}
 
       <NoteForm onNoteCreated={refreshNotes} />
-      <NoteList notes={notes} />
+      <NoteList notes={notes} onNoteDeleted={refreshNotes} />
     </>
   );
 }
