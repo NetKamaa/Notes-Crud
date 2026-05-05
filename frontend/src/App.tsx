@@ -60,7 +60,7 @@ function App() {
       )}
 
       <NoteForm onNoteCreated={refreshNotes} />
-      <NoteList notes={notes} onNoteDeleted={refreshNotes} />
+      <NoteList notes={notes} onNoteChanged={refreshNotes} />
     </>
   );
 }

@@ -3,15 +3,15 @@ import { NoteCard } from "./NoteCard";
 
 interface INoteList {
   notes: INote[];
-  onNoteDeleted: () => Promise<void>;
+  onNoteChanged: () => Promise<void>;
 }
 
-export function NoteList({ notes, onNoteDeleted: onNoteDeleted }: INoteList) {
+export function NoteList({ notes, onNoteChanged }: INoteList) {
   return (
     <>
       <div>
         {notes.map((note) => (
-          <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted} />
+          <NoteCard key={note.id} note={note} onNoteChanged={onNoteChanged} />
         ))}
       </div>
     </>

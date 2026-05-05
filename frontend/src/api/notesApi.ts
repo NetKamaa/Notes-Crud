@@ -37,3 +37,15 @@ export async function deleteNote(id: string): Promise<void> {
     throw new Error("Failed to delete note");
   }
 }
+
+export async function togglePinNote(id: string): Promise<void> {
+  const response = await fetch(`${API_URL}/${id}/pin`, {
+    method: "PATCH",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to pin or unpin note");
+  }
+
+  return response.json();
+}
