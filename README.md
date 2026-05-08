@@ -8,7 +8,7 @@ The project was created as a learning fullstack app to understand how frontend, 
 
 Main screen:
 
-![Notes CRUD main screen](./screenshots/preview-main.png)
+![Notes CRUD main screen](./screenshots/preview.png)
 
 Edit mode:
 
@@ -69,35 +69,56 @@ notes-crud/
       migrations/
       schema.prisma
     src/
-      generated/
       index.ts
       prisma.ts
-    .env
     package.json
+    pnpm-lock.yaml
     prisma.config.ts
     tsconfig.json
 
   frontend/
+    public/
     src/
       api/
         notesApi.ts
       components/
+        ui/
+          avatar.tsx
+          button.tsx
+          field.tsx
+          input.tsx
+          label.tsx
+          separator.tsx
+          textarea.tsx
         NoteCard.tsx
         NoteForm.tsx
         NoteList.tsx
         ProfileLinks.tsx
-        ui/
+      lib/
+        utils.ts
       types/
         notes.ts
       App.tsx
+      index.css
       main.tsx
+    .gitignore
+    components.json
+    eslint.config.js
+    index.html
     package.json
+    pnpm-lock.yaml
+    tsconfig.app.json
+    tsconfig.json
+    tsconfig.node.json
+    vite.config.ts
 
   screenshots/
-    preview-main.png
+    preview.png
     preview-edit.png
     preview-pinned.png
 
+  .editorconfig
+  .gitignore
   docker-compose.yaml
   README.md
 ```
